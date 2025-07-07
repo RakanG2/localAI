@@ -58,15 +58,13 @@ def delete_task_from_db(task_id):
 async def start(message: types.Message):
     if message.from_user.id != OWNER_ID:
         return
-    await message.answer("🤖 Привет! Я ассистент с кнопками и памятью.
-Выбери команду:", reply_markup=main_kb)
+    await message.answer("🤖 Привет! Я ассистент с кнопками и памятью.\nВыбери команду:", reply_markup=main_kb)
 
 @dp.message(Command("newtask"))
 async def newtask(message: types.Message):
     if message.from_user.id != OWNER_ID:
         return
-    await message.answer("✍️ Введи задачу в формате:
-2025-07-10 14:00 Встреча с клиентом")
+    await message.answer("✍️ Введи задачу в формате:\n2025-07-10 14:00 Встреча с клиентом")
 
 @dp.message(F.text.regexp(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2} "))
 async def quick_task(message: types.Message):
@@ -79,8 +77,7 @@ async def quick_task(message: types.Message):
         text = parts[2]
         add_task_to_db(dt_str, text)
         scheduler.add_job(send_reminder, "date", run_date=dt, args=[text])
-        await message.answer(f"✅ Задача добавлена:
-🕒 {dt_str} — {text}")
+        await message.answer(f"✅ Задача добавлена:\n🕒 {dt_str} — {text}")
     except:
         await message.answer("❌ Ошибка. Формат: 2025-07-10 14:00 Текст")
 
